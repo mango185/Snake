@@ -8,13 +8,15 @@
  *  @flag  判断游戏是否结束
 */
 
-function Game(map, food, snake, block){
+function Game(map, food, snake, block, menu){
     this.map = map;
     this.food = food;
     this.snake = snake;
     this.block = block;
+    this.menu = menu;
     this.flag = null;
     this.timer = null;
+    this.num = 0;
 
     // 执行 init
     this.init();
@@ -93,6 +95,8 @@ Game.prototype.start = function(){
         me.checkSnake();
         // 检测是否撞到障碍物
         me.checkBlock();
+        // 点击事件
+        me.click();
         // 判断游戏是否在运行
         if (me.flag){
             // 清屏
@@ -129,6 +133,8 @@ Game.prototype.gameOver = function(){
     this.flag = false;
     // 停止定时器
     clearInterval(this.timer);
+
+    alert("游戏停止，你的成绩为：" +  this.menu.num.innerHTML + "分");
 }
 
 // 检测是否超过边界
@@ -152,7 +158,10 @@ Game.prototype.checkFood = function(){
     var food = this.food;
     // 判断蛇的头部是否与食物重合
     if (head.row === food.row && head.col === food.col){
-        console.log("吃到食物了");
+        this.num += 1;
+
+        this.menu.num.innerHTML = this.num;
+
         // 调用蛇生长的方法
         this.snake.growUp();
         // 重置食物
@@ -172,9 +181,9 @@ Game.prototype.resetFood = function(){
         // 提取变量简化书写
         var one = this.snake.arr[i];
         if (one.row === row && one.col === col){
-            alert("与蛇的身体重合了");
+            // alert("与蛇的身体重合了");
             // 递归  再次重合 同时结束向下执行重置食物，而是再次循环，直到不重合
-            this.renderFood();
+            this.resetFood();
             return;
         }
     }
@@ -183,9 +192,9 @@ Game.prototype.resetFood = function(){
         // 提取变量简化书写
         var one = this.block.arr[i];
         if (one.row === row && one.col === col){
-            alert("与障碍物重合了");
+            // alert("与障碍物重合了");
             // 递归  再次重合 同时结束向下执行重置食物，而是再次循环，直到不重合
-            this.renderFood();
+            this.resetFood();
             return;
         }
     }
@@ -197,11 +206,15 @@ Game.prototype.resetFood = function(){
 Game.prototype.checkSnake = function(){
     // 获取蛇的头部
     var head = this.snake.arr[this.snake.arr.length - 1];
+    // 获取蛇头后一位
+    var head1 =this.snake.arr[this.snake.arr.length - 2];
     // 循环与蛇的每一节身体作比较 除了蛇头
     for (var i = 0; i < this.snake.arr.length - 1; i++){
         var one = this.snake.arr[i];
         if (head.row === one.row && head.col === one.col){
             console.log("吃到自己了");
+            // 改变蛇头方向
+            this.map.arr[head1.row][head1.col].style.backgroundImage = "url(" + this.snake.head_pic[this.snake.head_idx] + ")";
             // 结束游戏
             this.gameOver();
         }
@@ -233,5 +246,15 @@ Game.prototype.checkBlock = function(){
             // 结束游戏
             this.gameOver();
         }
+    }
+}
+
+Game.prototype.click = function(){
+    var me = this;
+    this.menu.start_btn.onclick = function(){
+        me.start();
+    }
+    this.menu.over_btn.onclick = function(){
+        me.gameOver();
     }
 }
