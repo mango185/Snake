@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            width: 600px;
+            height: 600px;
+            margin: 0 auto;
+        }
+        .row {
+            overflow: hidden;
+        }
+        .grid {
+            float: left;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <script src="js/Game.js"></script>
+    <script src="js/Snake.js"></script>
+    <script src="js/Map.js"></script>
+    <script src="js/Food.js"></script>
+    <script src="js/Block.js"></script>
+    <script>
+        // 实例化map
+        var map = new Map(20, 20, 600, 600);
+        // 实例化food
+        var food = new Food(2, 6, "images/food.jpg");
+        // 定义蛇所需要的图片
+        var snakeObj = {
+            head_pic: ["images/1.png", "images/2.png", "images/3.png", "images/4.png"],
+            body_pic: ["images/5.png"],
+            tail_pic: ["images/6.png", "images/7.png", "images/8.png", "images/9.png"]
+        }
+        // 实例化snake
+        var snake = new Snake(snakeObj);
+        // 实例化block
+        var block = new Block("images/block.png");
+        // 初始化一个游戏类
+        var g = new Game(map, food, snake, block);
+    </script>
+</body>
+</html>
