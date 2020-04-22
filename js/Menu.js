@@ -7,5 +7,5 @@ function Menu(menu_btn){
 
 // 
 Menu.prototype.score = function(){
-    console.log(this.num.html());
+    // console.log(this.num.html());
 }

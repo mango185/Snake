@@ -144,7 +144,7 @@ Game.prototype.checkMap = function(){
     // 与地图的row和col进行判定
     if (head.row < 0 || head.row >= this.map.row || head.col < 0 || head.col >= this.map.col){
         // alert("撞墙了！");
-        console.log("撞墙了");
+        // console.log("撞墙了");
         // 结束游戏
         this.gameOver();
     }
